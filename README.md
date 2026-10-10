@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# Python Store: React Shopping Cart
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A small single-page React shop with a product list and a cart. Users add products
+to the cart, remove them, and see a running total.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Product list with name and price.
+- Add to cart and remove from cart.
+- Live total of the items in the cart.
 
-### `npm start`
+The product data is hard-coded in `src/App.js`. There is no backend, database or
+checkout step.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- React 19 with Create React App (`react-scripts`)
+- Plain CSS
+- Docker: multi-stage build served by Nginx
 
-### `npm test`
+## Run locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+npm start
+```
 
-### `npm run build`
+Open http://localhost:3000.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Run tests
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm test
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Run with Docker
 
-### `npm run eject`
+```bash
+docker build -t python-store:local .
+docker run --rm -p 8080:80 python-store:local
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Then open http://localhost:8080.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project layout
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+.
+├── src/
+│   ├── App.js          # Product data, cart state and layout
+│   ├── App.css         # Styles
+│   └── index.js        # Entry point
+├── public/             # HTML template and static files
+├── Dockerfile          # Multi-stage build: Node to Nginx
+├── nginx.conf          # Single-page app routing
+└── .dockerignore
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Limitations and next steps
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Products are hard-coded. Moving them to a JSON file or an API would make the
+  project closer to a real store.
+- The cart is not saved between page refreshes.
+- The store name uses an HTML `<marquee>` element. It is deprecated, although browsers still support it, so a CSS animation would be a better choice.
+- Dependency note: `react-scripts` 5 is listed alongside React 19, which may produce
+  peer-dependency warnings during `npm install`.
